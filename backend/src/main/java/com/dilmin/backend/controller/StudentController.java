@@ -1,9 +1,11 @@
 package com.dilmin.backend.controller;
 
+import com.dilmin.backend.dto.request.StudentRequestDTO;
 import com.dilmin.backend.entity.Student;
 import com.dilmin.backend.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +16,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StudentController {
     private final StudentService studentService;
+    private final ModelMapper modelMapper;
 
     @PostMapping
-    public Student saveStudent(@Valid @RequestBody Student student) {
-        return studentService.saveStudent(student);
+    public Student saveStudent(@Valid @RequestBody StudentRequestDTO studentDto) {
+
+//        Student student = modelMapper.map(studentDto, Student.class);
+
+        return studentService.saveStudent(studentDto);
     }
 
     @GetMapping
@@ -31,7 +37,9 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@Valid @PathVariable UUID id, @RequestBody Student student) {
+    public Student updateStudent(@Valid @PathVariable UUID id, @RequestBody StudentRequestDTO studentDto) {
+        Student student = modelMapper.map(studentDto, Student.class);
+
         return studentService.updateStudent(id,student);
     }
 
