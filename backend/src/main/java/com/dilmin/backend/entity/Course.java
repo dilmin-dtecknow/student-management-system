@@ -27,17 +27,14 @@ public class Course {
     private UUID id;
 
     @Column(nullable = false)
-    @NotBlank(message = "Course name is required")
     private String courseName;
 
     @Column(length = 100)
     private String description;
 
-    @NotBlank(message = "Duration is required")
     @Column(nullable = false)
     private String duration;
 
-    @Positive(message = "Fee must greater than zero")
     @Column(nullable = false)
     private BigDecimal fee;
 
