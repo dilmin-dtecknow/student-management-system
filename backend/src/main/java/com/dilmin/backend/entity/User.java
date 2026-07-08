@@ -54,6 +54,9 @@ public class User {
     @JsonIgnore
     private Student student;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
