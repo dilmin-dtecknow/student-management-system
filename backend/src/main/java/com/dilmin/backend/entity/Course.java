@@ -42,7 +42,12 @@ public class Course {
     @Column(nullable = false)
     private CourseStatus status;
 
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany
+    @JoinTable(
+            name = "student_course",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
     @JsonIgnore
     private Set<Student> students;
 

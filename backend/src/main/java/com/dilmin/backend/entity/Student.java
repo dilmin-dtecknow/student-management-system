@@ -42,7 +42,7 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    @JsonIgnore
+//    @JsonIgnore
     private Set<Course> courses;
 
     @Column(nullable = false,updatable = false)
