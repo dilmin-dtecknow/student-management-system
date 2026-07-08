@@ -1,5 +1,6 @@
 package com.dilmin.backend.controller;
 
+import com.dilmin.backend.dto.request.EnrollCourseRequestDTO;
 import com.dilmin.backend.dto.request.StudentRequestDTO;
 import com.dilmin.backend.entity.Student;
 import com.dilmin.backend.service.StudentService;
@@ -9,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -41,6 +43,16 @@ public class StudentController {
         Student student = modelMapper.map(studentDto, Student.class);
 
         return studentService.updateStudent(id,student);
+    }
+
+    @PostMapping("/{studentId}/courses")
+    public Student enrollCourse(@PathVariable UUID studentId, @RequestBody EnrollCourseRequestDTO dto) {
+        return studentService.enrollCourse(studentId, dto.getCourseIds());
+    }
+
+    @DeleteMapping("/{studentId}/courses/{courseId}")
+    public Student removeCourse(@PathVariable UUID studentId,@PathVariable UUID courseId) {
+        return studentService.removeCourse(studentId, courseId);
     }
 
     @DeleteMapping("/{id}")

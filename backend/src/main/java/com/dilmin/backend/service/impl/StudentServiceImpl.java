@@ -35,7 +35,7 @@ public class StudentServiceImpl implements StudentService {
         User user = userRepository.findById(studentDto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Student student  = new Student();
+        Student student = new Student();
         student.setGender(Gender.valueOf(studentDto.getGender()));
         student.setUser(user);
         student.setAddress(studentDto.getAddress());
@@ -57,13 +57,13 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student getStudent(UUID id) {
         return studentRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new RuntimeException("Student not found"));
     }
 
     @Override
     public Student updateStudent(UUID id, Student student) {
 
-        Student existingStudent = studentRepository.findById(id).orElseThrow(()-> new RuntimeException("Student not found"));
+        Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
 
         modelMapper.map(student, existingStudent);
 //        existingStudent.setAddress(student.getAddress());
@@ -76,8 +76,34 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student enrollCourse(UUID studentId, Set<UUID> courseIds) {
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        List<Course> courses = courseRepository.findAllById(courseIds);
+        student.getCourses().addAll(courses);
+
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public Student removeCourse(UUID studentId, UUID courseId) {
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+
+        student.getCourses().remove(course);
+
+        return studentRepository.save(student);
+    }
+
+    @Override
     public void deleteStudent(UUID id) {
-        Student existingStudent = studentRepository.findById(id).orElseThrow(()-> new RuntimeException("Student not found"));
+        Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
 
         studentRepository.delete(existingStudent);
     }
