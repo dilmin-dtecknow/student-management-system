@@ -1,6 +1,7 @@
 package com.dilmin.backend.entity;
 
 import com.dilmin.backend.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -41,6 +42,7 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
+    @JsonIgnore
     private Set<Course> courses;
 
     @Column(nullable = false,updatable = false)

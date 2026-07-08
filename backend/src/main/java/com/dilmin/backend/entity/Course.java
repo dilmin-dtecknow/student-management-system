@@ -1,6 +1,7 @@
 package com.dilmin.backend.entity;
 
 import com.dilmin.backend.enums.CourseStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -45,6 +46,7 @@ public class Course {
     private CourseStatus status;
 
     @ManyToMany(mappedBy = "courses")
+    @JsonIgnore
     private Set<Student> students;
 
     @Column(nullable = false,updatable = false)
