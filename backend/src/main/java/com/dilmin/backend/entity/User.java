@@ -55,13 +55,16 @@ public class User {
     private Student student;
 
     @Column(nullable = false)
-    private boolean enabled = true;
+    private Boolean enabled = true;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
     public void prePersist() {
+        if (enabled == null) {
+            enabled = true;
+        }
         createdAt = LocalDateTime.now();
     }
 }
