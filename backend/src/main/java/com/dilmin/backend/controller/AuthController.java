@@ -1,6 +1,7 @@
 package com.dilmin.backend.controller;
 
 import com.dilmin.backend.dto.request.LoginRequest;
+import com.dilmin.backend.dto.request.RegisterRequestDTO;
 import com.dilmin.backend.dto.response.AuthResponse;
 import com.dilmin.backend.service.AuthService;
 import jakarta.validation.Valid;
@@ -19,5 +20,10 @@ public class AuthController {
     @PostMapping("/login")
     public AuthResponse login(@Valid @RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest);
+    }
+
+    @PostMapping("/register")
+    public AuthResponse register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
+        return authService.register(registerRequestDTO);
     }
 }
