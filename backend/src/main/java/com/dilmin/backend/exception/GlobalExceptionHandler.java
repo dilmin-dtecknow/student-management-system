@@ -72,6 +72,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiErrorDTO> handelAccessDenied(AccessDeniedException ex, HttpServletRequest request) {
+
+        ApiErrorDTO error = ApiErrorDTO.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.FORBIDDEN.value())
+                .error(HttpStatus.FORBIDDEN.getReasonPhrase())
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorDTO> handleException(Exception ex, HttpServletRequest request) {
 
         ApiErrorDTO error = ApiErrorDTO.builder()

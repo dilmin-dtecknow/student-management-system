@@ -7,6 +7,7 @@ import com.dilmin.backend.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class CourseController {
     private final CourseService courseService;
     private final ModelMapper modelMapper;
 
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @PostMapping
     public Course saveCourse(@RequestBody @Valid CourseRequestDTO courseDto) {
         Course course = modelMapper.map(courseDto, Course.class);
@@ -35,12 +37,14 @@ public class CourseController {
         return courseService.getCourseById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @PutMapping("/{id}")
     public Course updateCourseById(@PathVariable UUID id, @RequestBody @Valid CourseRequestDTO courseDto) {
         Course course = modelMapper.map(courseDto, Course.class);
         return courseService.updateCourse(id, course);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @DeleteMapping("/{id}")
     public void deleteCourseById(@PathVariable UUID id) {
         courseService.deleteCourse(id);
