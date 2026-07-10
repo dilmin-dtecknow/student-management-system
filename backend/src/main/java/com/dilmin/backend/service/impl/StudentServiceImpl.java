@@ -58,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student getStudent(UUID id) {
         return studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class StudentServiceImpl implements StudentService {
     public Student enrollCourse(UUID studentId, Set<UUID> courseIds) {
 
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
         List<Course> courses = courseRepository.findAllById(courseIds);
         student.getCourses().addAll(courses);
@@ -92,10 +92,10 @@ public class StudentServiceImpl implements StudentService {
     public Student removeCourse(UUID studentId, UUID courseId) {
 
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         student.getCourses().remove(course);
 
@@ -104,7 +104,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(UUID id) {
-        Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+        Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
         studentRepository.delete(existingStudent);
     }
