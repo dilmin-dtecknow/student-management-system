@@ -5,6 +5,7 @@ import com.dilmin.backend.dto.request.RegisterRequestDTO;
 import com.dilmin.backend.dto.response.AuthResponse;
 import com.dilmin.backend.entity.User;
 import com.dilmin.backend.enums.Role;
+import com.dilmin.backend.exception.DuplicateResourceException;
 import com.dilmin.backend.repository.UserRepository;
 import com.dilmin.backend.security.CustomUserDetails;
 import com.dilmin.backend.security.CustomUserDetailsService;
@@ -63,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
 
         if (userRepository.existsByEmail(registerRequestDTO.getEmail())) {
             log.error("Email already exists");
-            throw new RuntimeException("Email address already in use");
+            throw new DuplicateResourceException("Email address already in use");
         }
 
         if (userRepository.existsByPhoneNumber(registerRequestDTO.getPhoneNumber())) {

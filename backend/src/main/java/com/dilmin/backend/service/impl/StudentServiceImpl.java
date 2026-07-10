@@ -5,6 +5,7 @@ import com.dilmin.backend.entity.Course;
 import com.dilmin.backend.entity.Student;
 import com.dilmin.backend.entity.User;
 import com.dilmin.backend.enums.Gender;
+import com.dilmin.backend.exception.ResourceNotFoundException;
 import com.dilmin.backend.repository.CourseRepository;
 import com.dilmin.backend.repository.StudentRepository;
 import com.dilmin.backend.repository.UserRepository;
@@ -33,7 +34,7 @@ public class StudentServiceImpl implements StudentService {
     public Student saveStudent(StudentRequestDTO studentDto) {
 
         User user = userRepository.findById(studentDto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Student student = new Student();
         student.setGender(Gender.valueOf(studentDto.getGender()));
