@@ -1,6 +1,7 @@
 package com.dilmin.backend.service.impl;
 
 import com.dilmin.backend.dto.request.StudentRequestDTO;
+import com.dilmin.backend.dto.response.StudentResponseDTO;
 import com.dilmin.backend.entity.Course;
 import com.dilmin.backend.entity.Student;
 import com.dilmin.backend.entity.User;
@@ -100,6 +101,26 @@ public class StudentServiceImpl implements StudentService {
         student.getCourses().remove(course);
 
         return studentRepository.save(student);
+    }
+
+    @Override
+    public StudentResponseDTO getMyProfile(String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+
+        Student student = studentRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+
+        StudentResponseDTO studentResponseDTO = modelMapper.map(student, StudentResponseDTO.class);
+
+        studentResponseDTO.setFirstName(user.getFirstName());
+        studentResponseDTO.setLastName(user.getLastName());
+        studentResponseDTO.setUserId(user.getId());
+        studentResponseDTO.setEmail(user.getEmail());
+        studentResponseDTO.setPhoneNumber(user.getPhoneNumber());
+
+        return studentResponseDTO;
     }
 
     @Override

@@ -2,12 +2,15 @@ package com.dilmin.backend.controller;
 
 import com.dilmin.backend.dto.request.EnrollCourseRequestDTO;
 import com.dilmin.backend.dto.request.StudentRequestDTO;
+import com.dilmin.backend.dto.response.StudentResponseDTO;
 import com.dilmin.backend.entity.Student;
 import com.dilmin.backend.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,6 +62,12 @@ public class StudentController {
     @DeleteMapping("/{studentId}/courses/{courseId}")
     public Student removeCourse(@PathVariable UUID studentId,@PathVariable UUID courseId) {
         return studentService.removeCourse(studentId, courseId);
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<StudentResponseDTO> getMyProfile(Authentication authentication) {
+        StudentResponseDTO student = studentService.getMyProfile(authentication.getName());
+        return ResponseEntity.ok(student);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")

@@ -1,6 +1,7 @@
 package com.dilmin.backend.service;
 
 import com.dilmin.backend.dto.request.StudentRequestDTO;
+import com.dilmin.backend.dto.response.StudentResponseDTO;
 import com.dilmin.backend.entity.Student;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public interface StudentService {
 
     Student enrollCourse(UUID studentId, Set<UUID> courseIds);
     Student removeCourse(UUID studentId, UUID courseId);
+
+    StudentResponseDTO getMyProfile(String email);
 
     void deleteStudent(UUID id);
 }
