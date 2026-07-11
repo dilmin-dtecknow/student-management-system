@@ -24,9 +24,11 @@ export default function LoginPage() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
       localStorage.setItem("email", data.email);
-      
+       localStorage.setItem("firstName", data.firstName);
+    localStorage.setItem("lastName", data.lastName);
+
       console.log("Fetch data: ", data);
-      //   router.push("/dashboard");
+        router.push("/dashboard");
     } catch (err) {
       setError("Invalid email or password");
     } finally {
