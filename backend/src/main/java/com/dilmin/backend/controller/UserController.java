@@ -1,5 +1,6 @@
 package com.dilmin.backend.controller;
 
+import com.dilmin.backend.dto.response.UserResponseDTO;
 import com.dilmin.backend.entity.User;
 import com.dilmin.backend.service.UserService;
 import jakarta.validation.Valid;
@@ -24,7 +25,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserResponseDTO> getAllUsers() {
         return userService.getUsers();
     }
 

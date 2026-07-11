@@ -1,19 +1,23 @@
 package com.dilmin.backend.service.impl;
 
+import com.dilmin.backend.dto.response.UserResponseDTO;
 import com.dilmin.backend.entity.User;
 import com.dilmin.backend.repository.UserRepository;
 import com.dilmin.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public User saveUser(User user) {
@@ -21,8 +25,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> getUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserResponseDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.dilmin.backend.service;
 
+import com.dilmin.backend.dto.response.UserResponseDTO;
 import com.dilmin.backend.entity.Student;
 import com.dilmin.backend.entity.User;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
 public interface UserService {
     User saveUser(User user);
 
-    List<User> getUsers();
+    List<UserResponseDTO> getUsers();
 
     User getUserById(UUID id);
 
