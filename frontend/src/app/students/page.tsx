@@ -20,7 +20,7 @@ export default function StudentsPage() {
     try {
       const data = await getStudents();
       setStudents(data);
-        // console.log(data)
+      // console.log(data)
     } catch {
       if (role === "STUDENT") {
         setError("Sorry you dont have access!");
@@ -43,7 +43,7 @@ export default function StudentsPage() {
           <div className="mb-6 flex items-center justify-between">
             <h1 className="text-3xl font-bold">Students</h1>
 
-            <button className="rounded bg-blue-600 px-4 py-2 text-white">
+            <button className="rounded bg-blue-600 px-4 py-2 text-white cursor-pointer">
               Add Student
             </button>
           </div>
@@ -56,37 +56,57 @@ export default function StudentsPage() {
             <table className="w-full border">
               <thead className="bg-blue-950">
                 <tr>
-                  <th className="border p-3">First Name</th>
-                  <th className="border p-3">Last Name</th>
+                  <th className="border p-3">Name</th>
                   <th className="border p-3">Email</th>
                   <th className="border p-3">Phone</th>
+                  <th className="border p-3">Address</th>
+                  <th className="border p-3">Gender</th>
+                  <th className="border p-3">Courses</th>
                   <th className="border p-3">Actions</th>
-                  {/* <th className="border p-3">Enrolled</th> */}
                 </tr>
               </thead>
 
               <tbody>
                 {students.map((student: any) => (
                   <tr key={student.id}>
-                    <td className="border p-3">{student.user.firstName}</td>
-
-                    <td className="border p-3">{student.user.lastName}</td>
+                    <td className="border p-3">
+                      {student.user.firstName} {student.user.lastName}
+                    </td>
 
                     <td className="border p-3">{student.user.email}</td>
 
                     <td className="border p-3">{student.user.phoneNumber}</td>
 
+                    <td className="border p-3">{student.address}</td>
+
+                    <td className="border p-3">{student.gender}</td>
+
                     <td className="border p-3">
-                      <button className="mr-2 rounded bg-green-600 px-3 py-1 text-white">
+                      <div className="flex flex-wrap gap-2">
+                        {student.courses.length > 0 ? (
+                          student.courses.map((course: any) => (
+                            <span
+                              key={course.id}
+                              className="rounded-full bg-blue-100 px-2 py-1 font-bold text-xs text-blue-700"
+                            >
+                              {course.courseName}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-gray-500">Not Enrolled</span>
+                        )}
+                      </div>
+                    </td>
+
+                    <td className="border p-3 space-x-2">
+                      <button className="rounded bg-green-600 px-3 py-1 text-white cursor-pointer">
                         Edit
                       </button>
 
-                      <button className="rounded bg-red-600 px-3 py-1 text-white">
+                      <button className="rounded bg-red-600 px-3 py-1 text-white cursor-pointer">
                         Delete
                       </button>
                     </td>
-
-                    {/* <td className="border p-3">{student.courses.courseName}</td> */}
                   </tr>
                 ))}
               </tbody>
