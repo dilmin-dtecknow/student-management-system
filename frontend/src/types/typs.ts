@@ -1,0 +1,3 @@
+interface UUIDItemProps {
+    uuid: string;
+}
