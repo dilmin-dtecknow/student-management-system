@@ -3,16 +3,19 @@
 import Navbar from "@/components/layoutlayout/Navbar";
 import Sidebar from "@/components/layoutlayout/Sidebar";
 import { getStudents } from "@/services/studentService";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function StudentsPage() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [role, setRole] = useState("");
 
-  const role = localStorage.getItem("role");
+  // const role = localStorage.getItem("role");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/immutability
     loadStudents();
   }, []);
 
@@ -43,9 +46,9 @@ export default function StudentsPage() {
           <div className="mb-6 flex items-center justify-between">
             <h1 className="text-3xl font-bold">Students</h1>
 
-            <button className="rounded bg-blue-600 px-4 py-2 text-white cursor-pointer">
+            <Link href="/students/add" className="rounded bg-blue-600 px-4 py-2 text-white cursor-pointer">
               Add Student
-            </button>
+            </Link>
           </div>
 
           {loading && <p>Loading...</p>}
