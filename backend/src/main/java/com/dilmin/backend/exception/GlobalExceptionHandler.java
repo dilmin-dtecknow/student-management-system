@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -60,16 +61,43 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
+//
+//        Map<String, String> errors = new LinkedHashMap<>();
+//
+//        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+//            errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+//        }
+//
+//        return ResponseEntity.badRequest().body(errors);
+//    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
+    public ResponseEntity<ApiErrorDTO> handleValidation(
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request) {
 
-        Map<String, String> errors = new LinkedHashMap<>();
+        Map<String,String> validationErrors = new LinkedHashMap<>();
 
-        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
-            errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        for(FieldError fieldError : ex.getBindingResult().getFieldErrors()){
+            validationErrors.put(
+                    fieldError.getField(),
+                    fieldError.getDefaultMessage()
+            );
         }
 
-        return ResponseEntity.badRequest().body(errors);
+        ApiErrorDTO error = ApiErrorDTO.builder()
+                .message(validationErrors.toString())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -88,6 +116,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ApiErrorDTO> handleUnauthorized(UnauthorizedException ex, HttpServletRequest request) {
+        ApiErrorDTO error = ApiErrorDTO.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.FORBIDDEN.value())
+                .error(HttpStatus.FORBIDDEN.getReasonPhrase())
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ApiErrorDTO>  handleAuthorizationDenied(AuthorizationDeniedException ex, HttpServletRequest request) {
         ApiErrorDTO error = ApiErrorDTO.builder()
                 .message(ex.getMessage())
                 .status(HttpStatus.FORBIDDEN.value())
