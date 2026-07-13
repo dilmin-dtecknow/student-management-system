@@ -91,33 +91,31 @@ export default function ProfilePage() {
 
                     <div className=" rounded p-2 text-white grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                       {profile.courses.map((course: any) => (
-                        <>
-                          <div className="bg-white shadow-md rounded-lg p-4 flex flex-col">
-                            <label
-                              className="text-lg text-blue-700 font-semibold"
-                              key={course.id}
-                            >
-                              {course.courseName}
-                            </label>
+                        <div
+                          key={course.id ?? `${course.courseName}-${course.duration}`}
+                          className="bg-white shadow-md rounded-lg p-4 flex flex-col"
+                        >
+                          <label className="text-lg text-blue-700 font-semibold">
+                            {course.courseName}
+                          </label>
 
-                            <p className="text-sm text-slate-600 mt-1">
-                              {course.description}
-                            </p>
+                          <p className="text-sm text-slate-600 mt-1">
+                            {course.description}
+                          </p>
 
-                            <div className="mt-2 flex flex-wrap gap-2">
-                              <span className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-xs">
-                                {course.duration}
-                              </span>
-                              <span className="bg-green-100 text-green-700 rounded px-2 py-1 text-xs">
-                                {course.status}
-                              </span>
-                            </div>
-
-                            <p className="mt-2 text-slate-800 font-medium text-sm">
-                              RS.{course.fee}
-                            </p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-xs">
+                              {course.duration}
+                            </span>
+                            <span className="bg-green-100 text-green-700 rounded px-2 py-1 text-xs">
+                              {course.status}
+                            </span>
                           </div>
-                        </>
+
+                          <p className="mt-2 text-slate-800 font-medium text-sm">
+                            RS.{course.fee}
+                          </p>
+                        </div>
                       ))}
                     </div>
                   </div>
