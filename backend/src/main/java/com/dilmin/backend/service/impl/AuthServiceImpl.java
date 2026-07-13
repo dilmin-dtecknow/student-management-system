@@ -4,7 +4,7 @@ import com.dilmin.backend.dto.request.LoginRequest;
 import com.dilmin.backend.dto.request.RegisterRequestDTO;
 import com.dilmin.backend.dto.response.AuthResponse;
 import com.dilmin.backend.entity.User;
-import com.dilmin.backend.enums.Role;
+import com.dilmin.backend.entity.Role;
 import com.dilmin.backend.exception.DuplicateResourceException;
 import com.dilmin.backend.repository.UserRepository;
 import com.dilmin.backend.security.CustomUserDetails;

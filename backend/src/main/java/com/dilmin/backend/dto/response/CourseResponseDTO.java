@@ -1,6 +1,6 @@
 package com.dilmin.backend.dto.response;
 
-import com.dilmin.backend.enums.CourseStatus;
+import com.dilmin.backend.entity.CourseStatus;
 import lombok.Builder;
 import lombok.Data;
 

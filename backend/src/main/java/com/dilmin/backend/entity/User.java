@@ -1,6 +1,5 @@
 package com.dilmin.backend.entity;
 
-import com.dilmin.backend.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

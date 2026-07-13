@@ -1,4 +1,4 @@
-package com.dilmin.backend.enums;
+package com.dilmin.backend.entity;
 
 public enum CourseStatus {
     ACTIVE,

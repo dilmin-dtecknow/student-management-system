@@ -5,7 +5,7 @@ import com.dilmin.backend.dto.response.StudentResponseDTO;
 import com.dilmin.backend.entity.Course;
 import com.dilmin.backend.entity.Student;
 import com.dilmin.backend.entity.User;
-import com.dilmin.backend.enums.Gender;
+import com.dilmin.backend.entity.Gender;
 import com.dilmin.backend.exception.ResourceNotFoundException;
 import com.dilmin.backend.repository.CourseRepository;
 import com.dilmin.backend.repository.StudentRepository;

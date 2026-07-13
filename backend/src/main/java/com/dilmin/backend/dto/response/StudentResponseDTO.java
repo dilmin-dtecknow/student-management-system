@@ -1,7 +1,7 @@
 package com.dilmin.backend.dto.response;
 
 import com.dilmin.backend.dto.CourseDTO;
-import com.dilmin.backend.enums.Gender;
+import com.dilmin.backend.entity.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
