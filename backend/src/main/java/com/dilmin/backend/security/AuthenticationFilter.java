@@ -30,6 +30,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 //        final String authHeader = request.getHeader("Authorization");
 //        final String token;
         final String username;
+        String path = request.getServletPath();
 //
 //        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 //            filterChain.doFilter(request, response);
@@ -37,6 +38,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 //        }
 //
 //        token = authHeader.substring(7);
+
+        if (path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         final String token = extractToken(request);
         if (token == null) {

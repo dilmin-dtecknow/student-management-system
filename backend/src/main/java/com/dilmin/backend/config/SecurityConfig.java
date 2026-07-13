@@ -33,9 +33,13 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //no create server session
 
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/api/v1/auth/**").permitAll()
-//                        .requestMatchers(HttpMethod.GET,"/api/courses","api/students","api/users").permitAll()
-                                .anyRequest().authenticated()
+                        .requestMatchers("/api/v1/auth/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/courses").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
 
