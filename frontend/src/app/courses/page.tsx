@@ -27,7 +27,7 @@ export default function CoursePage() {
   };
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute allowedRoles={["ADMIN", "STAFF", "STUDENT"]}>
       <div className="flex min-h-screen bg-slate-50">
         <Sidebar />
         <div className="flex-1">

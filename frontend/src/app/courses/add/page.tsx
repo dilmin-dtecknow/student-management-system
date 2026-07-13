@@ -1,5 +1,6 @@
 "use client";
 
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -59,6 +60,7 @@ export default function AddCoursePage() {
   };
 
   return (
+    <ProtectedRoute allowedRoles={["ADMIN", "STAFF"]}>
     <div className="min-h-screen bg-slate-50 p-8">
       <div className="mx-auto max-w-2xl rounded-2xl bg-white p-8 shadow-sm">
         <div className="mb-6 flex items-center justify-between">
@@ -115,5 +117,6 @@ export default function AddCoursePage() {
         </form>
       </div>
     </div>
+    </ProtectedRoute>
   );
 }

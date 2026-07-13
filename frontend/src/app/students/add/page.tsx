@@ -84,7 +84,7 @@ export default function AddStudent() {
   };
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute allowedRoles={["ADMIN", "STAFF"]}>
       <div className="min-h-screen bg-slate-50 p-8">
         <div className="mx-auto max-w-2xl rounded-2xl bg-white p-8 shadow-sm">
           <div className="mb-6">
