@@ -53,6 +53,7 @@ public class StudentController {
         return studentService.updateStudent(id,student);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @PostMapping("/{studentId}/courses")
     public Student enrollCourse(@PathVariable UUID studentId, @RequestBody EnrollCourseRequestDTO dto) {
         return studentService.enrollCourse(studentId, dto.getCourseIds());
@@ -70,7 +71,7 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable UUID id) {
         studentService.deleteStudent(id);

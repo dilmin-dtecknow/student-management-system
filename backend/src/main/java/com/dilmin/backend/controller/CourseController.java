@@ -44,7 +44,7 @@ public class CourseController {
         return courseService.updateCourse(id, course);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteCourseById(@PathVariable UUID id) {
         courseService.deleteCourse(id);
