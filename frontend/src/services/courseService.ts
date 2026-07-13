@@ -42,3 +42,39 @@ export const createCourse = async (data: CreateCourse) => {
 
   return response.json();
 };
+
+export const updateCourse = async (id: string, data: CreateCourse) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${BASE_URL}/api/courses/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      courseName: data.courseName,
+      description: data.description,
+      duration: data.duration,
+      fee: data.fee,
+      status: data.status,
+    }),
+  });
+
+  if (!response.ok) throw new Error("Failed to update course");
+
+  return response.json();
+};
+
+export const deleteCourse = async (id: string) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${BASE_URL}/api/courses/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) throw new Error("Failed to delete course");
+};

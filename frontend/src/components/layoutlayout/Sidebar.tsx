@@ -14,6 +14,7 @@ export default function Sidebar() {
 
   const menus = [
     { name: "Dashboard", href: "/dashboard", roles: ["ADMIN", "STAFF", "STUDENT"] },
+    { name: "Profile", href: "/profile", roles: ["STUDENT"] },
     { name: "Students", href: "/students", roles: ["ADMIN", "STAFF"] },
     { name: "Courses", href: "/courses", roles: ["ADMIN", "STAFF", "STUDENT"] },
     { name: "Users", href: "/users", roles: ["ADMIN"] },

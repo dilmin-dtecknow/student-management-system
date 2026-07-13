@@ -4,7 +4,7 @@ import Navbar from "@/components/layoutlayout/Navbar";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Sidebar from "@/components/layoutlayout/Sidebar";
 import { getCourses } from "@/services/courseService";
-import { getStudents } from "@/services/studentService";
+import { getMyProfile, getStudents } from "@/services/studentService";
 import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
@@ -17,10 +17,17 @@ export default function DashboardPage() {
   const [coursesCount, setCoursesCount] = useState(0);
   const [activeCoursesCount, setActiveCoursesCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
     const loadData = async () => {
       try {
+        const role = localStorage.getItem("role") || "";
+        if (role === "STUDENT") {
+          const studentProfile = await getMyProfile();
+          setProfile(studentProfile);
+        }
+
         const [students, courses] = await Promise.all([getStudents(), getCourses()]);
         setStudentsCount(students.length || 0);
         setCoursesCount(courses.length || 0);
@@ -57,6 +64,30 @@ export default function DashboardPage() {
               </h1>
               <p className="mt-2 text-blue-100">Role: {user.role}</p>
             </div>
+
+            {profile && (
+              <div className="mt-8 rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-slate-900">Your Profile</h2>
+                <div className="mt-4 grid gap-4 md:grid-cols-2">
+                  <div>
+                    <p className="text-sm text-slate-500">Name</p>
+                    <p className="font-medium">{profile.firstName} {profile.lastName}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-500">Email</p>
+                    <p className="font-medium">{profile.email}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-500">Phone</p>
+                    <p className="font-medium">{profile.phoneNumber}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-500">Address</p>
+                    <p className="font-medium">{profile.address}</p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
               <div className="rounded-2xl bg-white p-6 shadow-sm">

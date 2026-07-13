@@ -67,3 +67,69 @@ export const createStudent = async (data: StudentRequest) => {
 
   return response.json();
 };
+
+export const updateStudent = async (id: string, data: StudentRequest) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${BASE_URL}/api/students/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      userId: data.userId,
+      address: data.address,
+      gender: data.gender,
+      courseIds: data.courseIds,
+    }),
+  });
+
+  if (!response.ok) throw new Error("Failed to update student");
+
+  return response.json();
+};
+
+export const deleteStudent = async (id: string) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${BASE_URL}/api/students/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) throw new Error("Failed to delete student");
+};
+
+export const enrollStudentToCourse = async (studentId: string, courseIds: string[]) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${BASE_URL}/api/students/${studentId}/courses`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ courseIds }),
+  });
+
+  if (!response.ok) throw new Error("Failed to enroll student");
+
+  return response.json();
+};
+
+export const getMyProfile = async () => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${BASE_URL}/api/students/my`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) throw new Error("Failed to load profile");
+
+  return response.json();
+};
