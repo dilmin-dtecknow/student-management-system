@@ -33,8 +33,9 @@ export const registerStudentUser = async (data: StudentUser) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    const messages = Object.values(errorData) as string[];
-    throw new Error(JSON.stringify([messages[0]]));
+    // Extract the message field from the error response
+    const message = errorData.message || "Registration failed";
+    throw new Error(message);
   }
 
   return response.json();
@@ -59,6 +60,11 @@ export const createStudent = async (data: StudentRequest) => {
 
   if (!response.ok) {
     const errorData = await response.json();
+
+    if (errorData.message) {
+      throw new Error(errorData.message);
+    }
+
     if (errorData.errors && errorData.errors.length > 0) {
       throw new Error(errorData.errors[0].message);
     }
