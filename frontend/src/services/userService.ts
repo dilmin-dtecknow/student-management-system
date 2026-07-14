@@ -46,3 +46,23 @@ export const deleteUser = async (id: string) => {
 
   if (!response.ok) throw new Error("Failed to delete user");
 };
+
+export const updateUser = async (id: string, data: Record<string, unknown>) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${BASE_URL}/api/users/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to update user");
+  }
+
+  return response.json();
+};

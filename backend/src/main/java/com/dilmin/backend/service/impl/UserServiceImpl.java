@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -62,12 +63,27 @@ public class UserServiceImpl implements UserService {
     public User updateUser(UUID id, User user) {
         User existing = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
+        if (!existing.getEmail().equals(user.getEmail()) && userRepository.existsByEmail(user.getEmail())) {
+            log.error("Email already exists");
+            throw new DuplicateResourceException("Email address already in use");
+        }
+
+        if (!Objects.equals(existing.getPhoneNumber(), user.getPhoneNumber()) && userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+            log.error("Phone number already exists");
+            throw new RuntimeException("Phone number already in use");
+        }
+
         existing.setFirstName(user.getFirstName());
         existing.setLastName(user.getLastName());
         existing.setEmail(user.getEmail());
         existing.setPhoneNumber(user.getPhoneNumber());
-        existing.setPassword(user.getPassword());
+
+        if (user.getPassword() != null && !user.getPassword().isBlank()) {
+            existing.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         existing.setRole(user.getRole());
+        existing.setEnabled(user.getEnabled() != null ? user.getEnabled() : existing.getEnabled());
 
         return userRepository.save(existing);
     }
