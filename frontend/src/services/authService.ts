@@ -14,6 +14,11 @@ export const login = async (email: string, password: string) => {
   });
 
   if (!response.ok) {
+    const contentType = response.headers.get("Content-Type") || "";
+    if (contentType.includes("application/json")) {
+      const errorBody = await response.json();
+      throw new Error(errorBody.message || "Invalid email or password!");
+    }
     const err = await response.text();
     throw new Error(err || "Invalid email or password!");
   }
